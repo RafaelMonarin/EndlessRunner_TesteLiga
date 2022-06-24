@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Cactus
+  - Abyss
   layers:
   - Default
   - TransparentFX
@@ -41,4 +42,13 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Map
+    uniqueID: 3197909443
+    locked: 0
+  - name: Objects
+    uniqueID: 879161361
+    locked: 0
+  - name: Player
+    uniqueID: 3561083359
     locked: 0
