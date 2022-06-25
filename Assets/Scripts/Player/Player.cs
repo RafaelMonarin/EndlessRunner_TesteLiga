@@ -1,131 +1,53 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
-    public float runSpeed = 8;
-    public float slideSpeed = 15;
-    public float jumpSpeed = 5;
-    public float hurtSpeed = 2;
-    float speed;
-
-    public float jumpForce = 550;
-    bool isGrounded;
-    public Transform feetPos;
-    public float checkRadius = .3f;
-    public LayerMask layerMask;
-    float jumpTimeCounter;
-    public float jumpTime = .35f;
-    bool isJumping = false;
-
-    float hor;
-    public bool canMove = false;
     bool canTakeDamage = true;
-    bool isHurting = false;
-    bool isSliding = false;
 
-    Rigidbody2D rigidBody;
-    CapsuleCollider2D capsuleCollider;
     Animator animator;
     Health health;
+    LevelManager levelManager;
+
+    public PlayerMovementMobile playerMovementMobile;
+    public PlayerMovementPC playerMovementPC;
+
+    public delegate void PlayerDeath();
+    public static event PlayerDeath onPlayerDied;
+
+    private void Awake()
+    {
+        onPlayerDied = null;
+    }
 
     private void Start()
     {
-        rigidBody = GetComponent<Rigidbody2D>();
-        capsuleCollider = GetComponent<CapsuleCollider2D>();
+        onPlayerDied += PlayerDied;
+
         animator = GetComponent<Animator>();
         health = FindObjectOfType<Health>();
-
-        speed = runSpeed;
+        levelManager = FindObjectOfType<LevelManager>();
     }
 
     private void Update()
     {
-        if (canMove)
+        if (playerMovementMobile.canMove)
         {
-            // Movement.
-            hor = Input.GetAxis("Horizontal");
-
-            if (hor > 0)
+            if (health.health <= 0)
             {
-                transform.eulerAngles = new Vector3(0, 0, 0);
-            }
-            else if (hor < 0)
-            {
-                transform.eulerAngles = new Vector3(0, 180, 0);
-            }
-
-            rigidBody.velocity = new Vector2(hor * speed, rigidBody.velocity.y);
-            animator.SetFloat("Speed", Mathf.Abs(rigidBody.velocity.x));
-
-
-
-            // Slide input.
-            if (Input.GetKeyDown(KeyCode.LeftControl) && !isHurting && isGrounded)
-            {
-                StartCoroutine(Slide());
-            }
-
-
-
-            // Jump.
-            isGrounded = Physics2D.OverlapCircle(feetPos.position, checkRadius, layerMask);
-
-            if (isGrounded && Input.GetKeyDown(KeyCode.Space) && !isHurting && !isSliding)
-            {
-                speed = jumpSpeed;
-                isJumping = true;
-                jumpTimeCounter = jumpTime;
-                rigidBody.AddForce(Vector2.up * jumpForce);
-            }
-            if (Input.GetKey(KeyCode.Space) && isJumping == true)
-            {
-                if (jumpTimeCounter > 0)
-                {
-                    rigidBody.AddForce(Vector2.up * jumpForce / 100);
-                    jumpTimeCounter -= Time.deltaTime;
-                }
-                else
-                {
-                    speed = runSpeed;
-                    isJumping = false;
-                }
-            }
-            if (Input.GetKeyUp(KeyCode.Space))
-            {
-                speed = runSpeed;
-                isJumping = false;
-            }
-
-
-
-            // In air animations.
-            if (!isGrounded && !isJumping)
-            {
-                animator.SetBool("IsFalling", true);
-            }
-            else if (!isGrounded && isJumping)
-            {
-                animator.SetBool("IsJumping", true);
-            }
-            else if (isGrounded)
-            {
-                animator.SetBool("IsJumping", false);
-                animator.SetBool("IsFalling", false);
-            }
-
-
-
-            // Dead.
-            if (health.lives <= 0)
-            {
-                Dead();
+                Died();
             }
         }
     }
 
-    // Colisions.
+    public void StopPlayer()
+    {
+        playerMovementMobile.StopPlayer();
+        playerMovementPC.StopPlayer();
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (canTakeDamage)
@@ -137,58 +59,75 @@ public class Player : MonoBehaviour
 
             if (other.CompareTag("Abyss"))
             {
-                Dead();
+                health.health = 0;
+                health.UpdateHealhLives();
+                Died();
             }
         }
     }
 
-    void Dead()
+    public void Died()
     {
-        canMove = false;
-        animator.SetTrigger("Dead");
-        health.RemoveLives();
+        if (health.lives > 0)
+        {
+            if (onPlayerDied != null)
+            {
+                onPlayerDied();
+            }
+        }
+        else
+        {
+            StartCoroutine(GameOver());
+        }
     }
 
-    void Revive(Transform CPTransform)
+    IEnumerator GameOver()
     {
-        canMove = true;
         animator.SetTrigger("Dead");
-        transform.position = CPTransform.position;
+        StopPlayer();
+        yield return new WaitForSeconds(1);
+
+        levelManager.StartCoroutine(levelManager.GameOver());
+        yield break;
     }
 
-    // Slide.
-    IEnumerator Slide()
+    void PlayerDied()
     {
-        isSliding = true;
-        speed = slideSpeed;
-        animator.SetTrigger("Slide");
-        capsuleCollider.offset = new Vector2(.3f, -.2f);
-        capsuleCollider.size = new Vector2(1.5f, 1.9f);
-        yield return new WaitForSeconds(.35f);
+        StartCoroutine(Revive());
+    }
 
-        isSliding = false;
-        yield return new WaitForSeconds(.15f);
+    IEnumerator Revive()
+    {
+        StopPlayer();
+        animator.SetTrigger("Dead");
+        yield return new WaitForSeconds(2);
 
-        speed = runSpeed;
-        capsuleCollider.offset = new Vector2(.3f, .03f);
-        capsuleCollider.size = new Vector2(1f, 2.25f);
-        yield return null;
+        animator.SetTrigger("Revive");
+        yield return new WaitForSeconds(.5f);
+
+        playerMovementMobile.canMove = true;
+        playerMovementPC.canMove = true;
+        yield break;
     }
 
     IEnumerator TakeDamage()
     {
-        health.RemoveHealth(-40);
-        speed = hurtSpeed;
         canTakeDamage = false;
-        isHurting = true;
+        health.RemoveHealth(-40);
+        playerMovementMobile.speed = playerMovementMobile.hurtSpeed;
+        playerMovementPC.speed = playerMovementPC.hurtSpeed;
+        playerMovementMobile.playerState = PlayerMovementMobile.PlayerState.Hurting;
+        playerMovementPC.playerState = PlayerMovementPC.PlayerState.Hurting;
         animator.SetTrigger("Hurt");
         yield return new WaitForSeconds(.55f);
 
-        speed = runSpeed;
-        isHurting = false;
+        playerMovementMobile.speed = playerMovementMobile.runSpeed;
+        playerMovementPC.speed = playerMovementPC.runSpeed;
+        playerMovementMobile.playerState = PlayerMovementMobile.PlayerState.Normal;
+        playerMovementPC.playerState = PlayerMovementPC.PlayerState.Normal;
         yield return new WaitForSeconds(.45f);
 
         canTakeDamage = true;
-        yield return null;
+        yield break;
     }
 }

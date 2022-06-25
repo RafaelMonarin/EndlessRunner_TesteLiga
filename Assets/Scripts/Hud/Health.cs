@@ -16,53 +16,61 @@ public class Health : MonoBehaviour
 
     private void Start()
     {
-        SetLives();
-    }
+        Player.onPlayerDied += PlayerDied;
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            RemoveLives();
-        }
-
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            RemoveHealth(-40);
-        }
+        ResetAll();
     }
 
     public void RemoveHealth(float value)
     {
         health += value;
         healthBar.fillAmount = health / maxHealth;
-        if (health <= 0)
-        {
-            RemoveLives();
-            health = maxHealth;
-            healthBar.fillAmount = health / maxHealth;
-        }
     }
 
     public void RemoveLives()
     {
         lives--;
-        SetLives();
+        UpdateHealhLives();
     }
 
-    public void SetLives()
+    public void UpdateHealhLives()
     {
         for (int i = 0; i < hearts.Length; i++)
         {
             hearts[i].sprite = i < lives ? fullHeart : emptyHeart;
         }
+
+        healthBar.fillAmount = health / maxHealth;
+    }
+
+    void PlayerDied()
+    {
+        StartCoroutine(Revive());
     }
 
     public void ResetAll()
     {
         health = maxHealth;
-        healthBar.fillAmount = health / maxHealth;
+        UpdateHealhLives();
         lives = 3;
-        SetLives();
+        UpdateHealhLives();
+    }
+
+    IEnumerator Revive()
+    {
+        UpdateHealhLives();
+        if (health == 0)
+        {
+            RemoveLives();
+        }
+        yield return new WaitForSeconds(2);
+
+        if (health < 0)
+        {
+            RemoveLives();
+        }
+        health = maxHealth;
+        UpdateHealhLives();
+        yield break;
     }
 }

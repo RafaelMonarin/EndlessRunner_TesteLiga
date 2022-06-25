@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 2750236105605126939}
   - component: {fileID: 2750236105605126938}
   - component: {fileID: 2750236105605126941}
+  - component: {fileID: 593569799}
+  - component: {fileID: 593569800}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -29,7 +31,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2750236105605126929}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.46, y: -2.4, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2750236105639119947}
@@ -155,17 +157,63 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 487d4abb7c962e3468116295722a05eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerMovementMobile: {fileID: 593569800}
+  playerMovementPC: {fileID: 593569799}
+--- !u!114 &593569799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2750236105605126929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f37a677a4e305224a96b95e4b8d623d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementState: 0
+  playerState: 0
+  speed: 0
   runSpeed: 8
   slideSpeed: 15
   jumpSpeed: 5
   hurtSpeed: 2
-  jumpForce: 550
+  isGrounded: 1
+  jumpForce: 1300
   feetPos: {fileID: 2750236105639119947}
-  checkRadius: 0.3
+  checkRadius: 0.01
   layerMask:
     serializedVersion: 2
     m_Bits: 64
-  jumpTime: 0.35
+  canMove: 0
+--- !u!114 &593569800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2750236105605126929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a1deef75d397bb4e8e6d2965900ab08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementState: 0
+  playerState: 0
+  speed: 0
+  runSpeed: 8
+  slideSpeed: 15
+  jumpSpeed: 5
+  hurtSpeed: 2
+  isGrounded: 1
+  jumpForce: 1300
+  feetPos: {fileID: 2750236105639119947}
+  checkRadius: 0.01
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 64
+  canMove: 0
+  joystick: {fileID: 0}
 --- !u!1 &2750236105639119946
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,11 +11,23 @@ public class DataManager : MonoBehaviour
 
     void StartData()
     {
-        PlayerPrefs.SetInt("LevelsUnlocked", 1);
+        /*PlayerPrefs.SetInt("LevelsUnlocked", 1);
         for (int i = 0; i < 8; i++)
         {
             PlayerPrefs.SetInt("Level" + (i + 1) + "Stars", 0);
+            PlayerPrefs.SetString("Level" + (i + 1) + "Completed", "no");
         }
-        PlayerPrefs.Save();
+        PlayerPrefs.Save();*/
+
+        if (!PlayerPrefs.HasKey("LevelsUnlocked"))
+        {
+            PlayerPrefs.SetInt("LevelsUnlocked", 1);
+            for (int i = 0; i < 8; i++)
+            {
+                PlayerPrefs.SetInt("Level" + (i + 1) + "Stars", 0);
+                PlayerPrefs.SetString("Level" + (i + 1) + "Completed", "no");
+            }
+            PlayerPrefs.Save();
+        }
     }
 }
