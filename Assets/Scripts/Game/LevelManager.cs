@@ -17,6 +17,8 @@ public class StarsRequirement
 
 public class LevelManager : MonoBehaviour
 {
+    public int levelNumber;
+
     Player player;
     Health health;
 
@@ -25,6 +27,7 @@ public class LevelManager : MonoBehaviour
     public TMP_Text timerTXT;
     public GameObject stage3;
     public GameObject pauseMenu;
+    public TMP_Text levelNumberTxt;
     public GameObject[] inGameHud;
     public GameObject gameOver;
     public GameObject playerStatus;
@@ -47,7 +50,6 @@ public class LevelManager : MonoBehaviour
     public Transform finish;
 
     int stars = 0;
-    public int levelNumber;
     public StarsRequirement[] starsRequirements;
 
     private void Start()
@@ -57,6 +59,7 @@ public class LevelManager : MonoBehaviour
         player = FindObjectOfType<Player>();
         health = FindObjectOfType<Health>();
         timerTXT.text = time.ToString();
+        levelNumberTxt.text = "NÍVEL " + levelNumber;
         currentCheckPoint = startPos;
         SetStarsRequirements();
     }
@@ -78,7 +81,7 @@ public class LevelManager : MonoBehaviour
             DisplayTime(levelTime);
         }
 
-        float progress = Vector2.Distance(player.transform.position, startPos.position);
+        float progress = Vector2.Distance(new Vector2(player.transform.position.x, 0), new Vector2(startPos.position.x, 0));
         levelProgress.maxValue = Vector2.Distance(startPos.position, finish.position);
         levelProgress.value = progress;
     }
@@ -131,7 +134,7 @@ public class LevelManager : MonoBehaviour
         yield break;
     }
 
-    public void PauseMenu()
+    public void Pause()
     {
         Time.timeScale = 0;
         
@@ -205,7 +208,8 @@ public class LevelManager : MonoBehaviour
     public IEnumerator LevelFinished()
     {
         canCount = false;
-        player.StopPlayer();
+        player.playerMovementMobile.FinishAnim();
+        player.playerMovementPC.FinishAnim();
         Results();
         yield return new WaitForSeconds(2);
 

@@ -97,8 +97,11 @@ public class LevelSelector : MonoBehaviour
 
         for (int i = 0; i < levelsUnlocked; i++)
         {
-            levels[i].interactable = true;
-            locked[i].SetActive(false);
+            if (i < levels.Length)
+            {
+                levels[i].interactable = true;
+                locked[i].SetActive(false);
+            }
         }
     }
 

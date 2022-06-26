@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class PlayerMovementMobile : MonoBehaviour
 {
-    public enum MovementState { Idle, Running, Sliding, Jumping }
+    public enum MovementState { Running, Sliding, Jumping }
     public enum PlayerState { Normal, Hurting }
 
     public MovementState movementState;
@@ -14,12 +14,12 @@ public class PlayerMovementMobile : MonoBehaviour
     public float speed;
     public float runSpeed = 8;
     public float slideSpeed = 15;
-    public float jumpSpeed = 5;
     public float hurtSpeed = 2;
 
-    public bool isGrounded = true;
+    public bool isGrounded1 = true;
+    public bool isGrounded2 = true;
     public float jumpForce = 1000;
-    public Transform feetPos;
+    public Transform feetPos1, feetPos2;
     public float checkRadius = .3f;
     public LayerMask layerMask;
 
@@ -28,18 +28,18 @@ public class PlayerMovementMobile : MonoBehaviour
     bool doOnce = true;
 
     Rigidbody2D rigidBody;
-    CapsuleCollider2D capsuleCollider;
+    BoxCollider2D boxCollider;
     Animator animator;
 
     public Joystick joystick;
 
     private void Start()
     {
-        movementState = MovementState.Idle;
+        movementState = MovementState.Running;
         playerState = PlayerState.Normal;
 
         rigidBody = GetComponent<Rigidbody2D>();
-        capsuleCollider = GetComponent<CapsuleCollider2D>();
+        boxCollider = GetComponent<BoxCollider2D>();
         animator = GetComponent<Animator>();
 
         speed = runSpeed;
@@ -52,17 +52,14 @@ public class PlayerMovementMobile : MonoBehaviour
             if (joystick.Horizontal >= .2f)
             {
                 horizontalMove = speed;
-                movementState = MovementState.Running;
             }
             else if (joystick.Horizontal <= -.2f)
             {
                 horizontalMove = -speed;
-                movementState = MovementState.Running;
             }
             else
             {
                 horizontalMove = 0;
-                movementState = MovementState.Idle;
             }
 
             if (horizontalMove > 0)
@@ -77,23 +74,26 @@ public class PlayerMovementMobile : MonoBehaviour
             rigidBody.velocity = new Vector2(horizontalMove, rigidBody.velocity.y);
             animator.SetFloat("Speed", Mathf.Abs(rigidBody.velocity.x));
 
-            isGrounded = Physics2D.OverlapCircle(feetPos.position, checkRadius, layerMask);
-            if (isGrounded && doOnce)
+            isGrounded1 = Physics2D.OverlapCircle(feetPos1.position, checkRadius, layerMask);
+            isGrounded2 = Physics2D.OverlapCircle(feetPos2.position, checkRadius, layerMask);
+
+            if ((isGrounded1 || isGrounded2) && doOnce)
             {
                 doOnce = false;
-                movementState = MovementState.Idle;
+                movementState = MovementState.Running;
                 speed = runSpeed;
             }
 
-            if (rigidBody.velocity.y < -5 && (movementState == MovementState.Idle || movementState == MovementState.Running))
+            if (rigidBody.velocity.y < -5 && movementState == MovementState.Running)
             {
                 animator.SetBool("IsFalling", true);
             }
             else if (rigidBody.velocity.y >= 5)
             {
                 animator.SetBool("IsJumping", true);
+                doOnce = true;
             }
-            else if (isGrounded)
+            else if (isGrounded1 || isGrounded2)
             {
                 animator.SetBool("IsJumping", false);
                 animator.SetBool("IsFalling", false);
@@ -106,21 +106,28 @@ public class PlayerMovementMobile : MonoBehaviour
         canMove = false;
         rigidBody.velocity = Vector2.zero;
     }
+    public void FinishAnim()
+    {
+        canMove = false;
+        rigidBody.velocity = Vector2.zero;
+        animator.SetFloat("Speed", 0);
+    }
 
     public void Jump()
     {
-        if (isGrounded && playerState == PlayerState.Normal && (movementState == MovementState.Idle || movementState == MovementState.Running))
+        if (canMove)
         {
-            doOnce = true;
-            speed = jumpSpeed;
-            movementState = MovementState.Jumping;
-            rigidBody.AddForce(Vector2.up * jumpForce);
+            if ((isGrounded1 || isGrounded2) && playerState == PlayerState.Normal && movementState == MovementState.Running)
+            {
+                movementState = MovementState.Jumping;
+                rigidBody.AddForce(Vector2.up * jumpForce);
+            }
         }
     }
 
     public void Slide()
     {
-        if (isGrounded && playerState == PlayerState.Normal && movementState == MovementState.Running)
+        if ((isGrounded1 || isGrounded2) && playerState == PlayerState.Normal && movementState == MovementState.Running)
         {
             StartCoroutine(SlideIEnum());
         }
@@ -131,16 +138,16 @@ public class PlayerMovementMobile : MonoBehaviour
         movementState = MovementState.Sliding;
         speed = slideSpeed;
         animator.SetTrigger("Slide");
-        capsuleCollider.offset = new Vector2(.3f, -.2f);
-        capsuleCollider.size = new Vector2(1.5f, 1.9f);
+        boxCollider.offset = new Vector2(.3f, -.1f);
+        boxCollider.size = new Vector2(1f, 1.25f);
         yield return new WaitForSeconds(.4f);
 
-        movementState = MovementState.Idle;
+        movementState = MovementState.Running;
         yield return new WaitForSeconds(.1f);
 
         speed = runSpeed;
-        capsuleCollider.offset = new Vector2(.3f, .03f);
-        capsuleCollider.size = new Vector2(1f, 2.25f);
+        boxCollider.offset = new Vector2(.3f, .1f);
+        boxCollider.size = new Vector2(1f, 2f);
         yield break;
     }
 }

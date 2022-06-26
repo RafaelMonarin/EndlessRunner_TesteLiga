@@ -51,7 +51,6 @@ public class Health : MonoBehaviour
     public void ResetAll()
     {
         health = maxHealth;
-        UpdateHealhLives();
         lives = 3;
         UpdateHealhLives();
     }
@@ -63,7 +62,7 @@ public class Health : MonoBehaviour
         {
             RemoveLives();
         }
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1.5f);
 
         if (health < 0)
         {

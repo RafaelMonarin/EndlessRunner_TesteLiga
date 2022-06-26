@@ -5,7 +5,12 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
+    public enum MobileOrPC { Mobile, PC }
+    public MobileOrPC mobileOrPC;
+    public GameObject controls;
+
     bool canTakeDamage = true;
+    bool doOnce = true;
 
     Animator animator;
     Health health;
@@ -33,9 +38,24 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        switch (mobileOrPC)
+        {
+            case MobileOrPC.Mobile:
+                playerMovementMobile.enabled = true;
+                playerMovementPC.enabled = false;
+                controls.SetActive(true);
+                break;
+
+            case MobileOrPC.PC:
+                playerMovementMobile.enabled = false;
+                playerMovementPC.enabled = true;
+                controls.SetActive(false);
+                break;
+        }
+
         if (playerMovementMobile.canMove)
         {
-            if (health.health <= 0)
+            if (health.health <= 0 && doOnce)
             {
                 Died();
             }
@@ -44,8 +64,14 @@ public class Player : MonoBehaviour
 
     public void StopPlayer()
     {
-        playerMovementMobile.StopPlayer();
-        playerMovementPC.StopPlayer();
+        if (playerMovementMobile.enabled)
+        {
+            playerMovementMobile.StopPlayer();
+        }
+        else if (playerMovementPC.enabled)
+        {
+            playerMovementPC.StopPlayer();
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -54,14 +80,24 @@ public class Player : MonoBehaviour
         {
             if (other.CompareTag("Cactus"))
             {
-                StartCoroutine(TakeDamage());
+               StartCoroutine(TakeDamage());
             }
 
             if (other.CompareTag("Abyss"))
             {
                 health.health = 0;
                 health.UpdateHealhLives();
-                Died();
+            }
+        }
+    }
+
+    void OnTriggerStay2D(Collider2D other)
+    {
+        if (canTakeDamage)
+        {
+            if (other.CompareTag("Cactus"))
+            {
+                StartCoroutine(TakeDamage());
             }
         }
     }
@@ -93,6 +129,7 @@ public class Player : MonoBehaviour
 
     void PlayerDied()
     {
+        doOnce = false;
         StartCoroutine(Revive());
     }
 
@@ -100,13 +137,13 @@ public class Player : MonoBehaviour
     {
         StopPlayer();
         animator.SetTrigger("Dead");
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1.5f);
 
         animator.SetTrigger("Revive");
         yield return new WaitForSeconds(.5f);
-
         playerMovementMobile.canMove = true;
         playerMovementPC.canMove = true;
+        doOnce = true;
         yield break;
     }
 
