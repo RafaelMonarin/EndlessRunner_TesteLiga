@@ -27,8 +27,7 @@ public class LevelSelector : MonoBehaviour
     private void Start()
     {
         SetPage();
-        CheckLevels();
-        CheckStars();
+        CheckAll();
     }
 
     // Pages.
@@ -86,6 +85,12 @@ public class LevelSelector : MonoBehaviour
 
 
     // Levels.
+    public void CheckAll()
+    {
+        CheckLevels();
+        CheckStars();
+    }
+
     void CheckLevels()
     {
         int levelsUnlocked = PlayerPrefs.GetInt("LevelsUnlocked");

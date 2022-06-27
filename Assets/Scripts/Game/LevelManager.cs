@@ -55,6 +55,7 @@ public class LevelManager : MonoBehaviour
     private void Start()
     {
         Player.onPlayerDied += PlayerDied;
+        RewardedAdsButton.onRewardedCompleted += NewLive;
 
         player = FindObjectOfType<Player>();
         health = FindObjectOfType<Health>();
@@ -128,8 +129,10 @@ public class LevelManager : MonoBehaviour
 
     IEnumerator Revive()
     {
+        canCount = false;
         yield return new WaitForSeconds(1);
 
+        canCount = true;
         player.transform.position = currentCheckPoint.position;
         yield break;
     }
@@ -159,12 +162,12 @@ public class LevelManager : MonoBehaviour
 
     public IEnumerator GameOver()
     {
-        yield return new WaitForSeconds(1);
-
+        health.RemoveLives();
         for (int i = 0; i < inGameHud.Length; i++)
         {
             inGameHud[i].SetActive(false);
         }
+        player.controls.SetActive(false);
         gameOver.SetActive(true);
         Time.timeScale = 0;
         yield break;
@@ -257,5 +260,23 @@ public class LevelManager : MonoBehaviour
             PlayerPrefs.Save();
 
         }
+    }
+
+    void NewLive()
+    {
+        Time.timeScale = 1;
+        StartCoroutine(NewLiveIEnum());
+    }
+
+    IEnumerator NewLiveIEnum()
+    {
+        gameOver.SetActive(false);
+        for (int i = 0; i < inGameHud.Length; i++)
+        {
+            inGameHud[i].SetActive(true);
+        }
+        player.controls.SetActive(true);
+        player.transform.position = currentCheckPoint.position;
+        yield break;
     }
 }

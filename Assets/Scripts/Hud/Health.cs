@@ -17,6 +17,7 @@ public class Health : MonoBehaviour
     private void Start()
     {
         Player.onPlayerDied += PlayerDied;
+        RewardedAdsButton.onRewardedCompleted += NewLive;
 
         ResetAll();
     }
@@ -57,19 +58,21 @@ public class Health : MonoBehaviour
 
     IEnumerator Revive()
     {
-        UpdateHealhLives();
-        if (health == 0)
+        if (health <= 0)
         {
             RemoveLives();
         }
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1);
 
-        if (health < 0)
-        {
-            RemoveLives();
-        }
         health = maxHealth;
         UpdateHealhLives();
         yield break;
+    }
+
+    void NewLive()
+    {
+        lives = 1;
+        health = maxHealth;
+        UpdateHealhLives();
     }
 }

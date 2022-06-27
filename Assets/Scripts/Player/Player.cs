@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
 
     bool canTakeDamage = true;
     bool doOnce = true;
+    bool gameOver = false;
 
     Animator animator;
     Health health;
@@ -30,6 +31,7 @@ public class Player : MonoBehaviour
     private void Start()
     {
         onPlayerDied += PlayerDied;
+        RewardedAdsButton.onRewardedCompleted += NewLive;
 
         animator = GetComponent<Animator>();
         health = FindObjectOfType<Health>();
@@ -104,7 +106,7 @@ public class Player : MonoBehaviour
 
     public void Died()
     {
-        if (health.lives > 0)
+        if (health.lives > 1)
         {
             if (onPlayerDied != null)
             {
@@ -119,6 +121,8 @@ public class Player : MonoBehaviour
 
     IEnumerator GameOver()
     {
+        gameOver = true;
+        canTakeDamage = false;
         animator.SetTrigger("Dead");
         StopPlayer();
         yield return new WaitForSeconds(1);
@@ -130,20 +134,30 @@ public class Player : MonoBehaviour
     void PlayerDied()
     {
         doOnce = false;
-        StartCoroutine(Revive());
+        if (!gameOver)
+        {
+            StartCoroutine(Revive());
+        }
     }
 
     IEnumerator Revive()
     {
         StopPlayer();
         animator.SetTrigger("Dead");
-        yield return new WaitForSeconds(1.5f);
+        canTakeDamage = false;
+        yield return new WaitForSeconds(1f);
 
         animator.SetTrigger("Revive");
-        yield return new WaitForSeconds(.5f);
+        animator.SetBool("IsFalling", false);
+        animator.SetFloat("Speed", 0);
+        yield return new WaitForSeconds(1f);
+
         playerMovementMobile.canMove = true;
         playerMovementPC.canMove = true;
         doOnce = true;
+        yield return new WaitForSeconds(.25f);
+
+        canTakeDamage = true;
         yield break;
     }
 
@@ -165,6 +179,23 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(.45f);
 
         canTakeDamage = true;
+        yield break;
+    }
+
+    void NewLive()
+    {
+        StartCoroutine(NewLiveIEnum());
+    }
+
+    IEnumerator NewLiveIEnum()
+    {
+        animator.SetTrigger("Revive");
+        yield return new WaitForSeconds(1f);
+
+        playerMovementMobile.canMove = true;
+        playerMovementPC.canMove = true;
+        canTakeDamage = true;
+        doOnce = true;
         yield break;
     }
 }

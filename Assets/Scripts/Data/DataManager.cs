@@ -4,27 +4,20 @@ using UnityEngine;
 
 public class DataManager : MonoBehaviour
 {
-    public bool canResetData;
-
     private void Start()
     {
         StartData();
-
-        if (canResetData)
-        {
-            CreateData();
-        }
     }
 
     void StartData()
     {
         if (!PlayerPrefs.HasKey("LevelsUnlocked"))
         {
-            CreateData();
+            RereateData();
         }
     }
 
-    void CreateData()
+    public void RereateData()
     {
         PlayerPrefs.SetInt("LevelsUnlocked", 1);
         for (int i = 0; i < 8; i++)

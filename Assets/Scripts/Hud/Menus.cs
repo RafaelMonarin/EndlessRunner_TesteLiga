@@ -7,6 +7,7 @@ public class Menus : MonoBehaviour
     public GameObject mainMenu;
     public GameObject levelMenu;
     public GameObject exitMenu;
+    public GameObject resetAllMenu;
 
     public LevelSelector levelSelector;
 
@@ -34,10 +35,16 @@ public class Menus : MonoBehaviour
         mainMenu.SetActive(false);
         levelMenu.SetActive(false);
         exitMenu.SetActive(false);
+        resetAllMenu.SetActive(false);
     }
 
     public void ExitGame()
     {
         Application.Quit();
+    }
+
+    public void ResetAllMenu()
+    {
+        resetAllMenu.SetActive(true);
     }
 }
