@@ -8986,6 +8986,18 @@ PrefabInstance:
       propertyPath: starsRequirements.Array.data[2].timeNeeded
       value: 35
       objectReference: {fileID: 0}
+    - target: {fileID: 1683808173, guid: 7d45bfd767411ea40b67a4d66fe60f7d, type: 3}
+      propertyPath: starsRequirements.Array.data[0].livesNeeded
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1683808173, guid: 7d45bfd767411ea40b67a4d66fe60f7d, type: 3}
+      propertyPath: starsRequirements.Array.data[1].livesNeeded
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1683808173, guid: 7d45bfd767411ea40b67a4d66fe60f7d, type: 3}
+      propertyPath: starsRequirements.Array.data[2].livesNeeded
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 1725531215, guid: 7d45bfd767411ea40b67a4d66fe60f7d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 

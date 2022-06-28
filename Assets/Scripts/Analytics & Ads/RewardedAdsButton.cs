@@ -14,6 +14,7 @@ public class RewardedAdsButton : MonoBehaviour, IUnityAdsLoadListener, IUnityAds
 
     void Awake()
     {
+        onRewardedCompleted = null;
         // Get the Ad Unit ID for the current platform:
 #if UNITY_IOS
         _adUnitId = _iOSAdUnitId;
