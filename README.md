@@ -50,6 +50,7 @@
   - Correção de bugs.
 
 # Tempo gasto com o projeto:
+- O projeto foi desenvolvido do dia 22 até o dia 27.
 - 22 - Início do projeto;
 - 27 - Fim do projeto;
 
@@ -69,7 +70,8 @@
 - Unity Analytics e Ads
   - Analytics - 1 hora;
   - Ads - 1 hora;
-- Testes - 16 horas;
+- Teste
+  - Testes em geral - 16 horas;
 
 - Observação
   - Tempo aproximado.
