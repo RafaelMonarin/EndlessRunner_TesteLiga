@@ -3,8 +3,11 @@
 
 # Principais Classes:
 - Menus - Hud do menu e suas transições;
+
 - LevelSelector - Verificação dos níveis se desbloqueados ou não e número de estrelas;
+
 - Player - Junto com as classes PlayerMovementMobile, são responsáveis pela movimentação do jogador e animações;
+
 - Health - Vida e hud de vida do jogador;
 - LevelMananger - Toda a jogabilidade do nível, checkpoints e hud;
 - CheckPoint - Animação da bandeira de checkpoint e por passar seu transform para a classe LevelManager;
