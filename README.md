@@ -15,15 +15,27 @@
 - AnalyticsSender - Mandar um analytics sempre quando iniciar um nível e quando o nível for completo.
 
 # Lógicas Empregadas:
-- Menu inicial - Para cada botão do menu, chama um método que desativa todos os menus e ativa só o referente ao botão;
+- Menu inicial
+  - Para cada botão do menu, chama um método que desativa todos os menus e ativa só o referente ao botão;
 
 - Seleção de nível
-  - Com PlayerPrefs, habilita ou desabilita o botão de cada nível se o nível estiver desbloqueado, verifica o número de estrelas obtidas em cada nível; Faz a troca de páginas da seleção de nível habilitando a página atual e desabilitando as demais;
+  - Com PlayerPrefs, habilita ou desabilita o botão de cada nível se o nível estiver desbloqueado, verifica o número de estrelas obtidas em cada nível (if pegando as keys do PlayerPrefs);
+  - Faz a troca de páginas da seleção de nível habilitando a página atual e desabilitando as demais;
+  - Botão para cada nível (loadScene para o nível escolhido);
 
-- Jogo - Começa com uma contagem regressiva, ao chegar em 0, desabilita a contagem, libera a movimentação do jogador e inicia o contador de tempo do nível;
-Quando o jogador colide com um cacto, reduz a barra de vida e atualiza a hud, se a barra de vida zerar ou se o jogador cair em um abismo, perde um coração e o revive no último checkpoint; Contador de tempo e progresso do nível; Botão de pause onde o jogador pode voltar ao menu inicial, reiniciar o nível ou voltar ao jogo; Se o jogador perder todos os corações, chama a tela de fim de jogo, onde o jogador pode voltar ao menu inicial, reiniciar o nível ou chamar um ads para ganhar um coração extra e reviver no último checkpoint; 
-- 
-- 
+- Jogo
+  - Começa com uma contagem regressiva com (-= Time.deltaTime), ao chegar em 0, desabilita a contagem, libera a movimentação do jogador (deixando uma variável bool da classe Player verdadeira) e inicia o contador de tempo do nível com;
+  - Quando o jogador colide com um cacto, reduz a barra de vida e atualiza a hud, se a barra de vida zerar ou se o jogador cair em um abismo, perde um coração e o revive no último checkpoint (transform do player igual ao transform do checkpoint);
+  - Contador de tempo (+= Time.deltaTime) e progresso do nível (distância entre o player );
+  - Botão de pause (Time.timeScale = 0) onde o jogador pode voltar ao menu inicial (loadScene para o menu inicial), reiniciar o nível (loadScene no mesmo nível) ou voltar ao jogo (fecha a hud e Time.timeScale = 1); 
+
+- Fim de jogo
+  - Se o jogador perder todos os corações, chama a tela de fim de jogo, onde o jogador pode voltar ao menu inicial (loadScene para o menu inicial), reiniciar o nível (loadScene no mesmo nível) ou chamar um ads para ganhar um coração extra e reviver no último checkpoint (transform do player igual ao transform do checkpoint);
+
+- Nível Completo
+  - Mostra o tempo levado para chegar ao final do nível e o número de corações restantes.
+  - Faz uma verificação dos dados a cima (if), recompensa o jogador com estrelas de acordo com seu tempo e corações restantes e salva alguns dados, (nível completo, número de níveis desbloquados++, e número de estrelas).
+  - O jogador pode escolher voltar ao menu inicial (loadScene para o menu inicial), reiniciar o nível (loadScene no mesmo nível), ou ir ao próximo nível (loadScene no próximo nível).
 
 # Manutenção do projeto planejada:
 - 
