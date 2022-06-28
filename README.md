@@ -19,35 +19,35 @@
   - Para cada botão do menu, chama um método que desativa todos os menus e ativa só o referente ao botão;
 
 - Seleção de nível
-  - Com PlayerPrefs, habilita ou desabilita o botão de cada nível se o nível estiver desbloqueado, verifica o número de estrelas obtidas em cada nível (if pegando as keys do PlayerPrefs);
+  - Com PlayerPrefs, habilita ou desabilita o botão de cada nível se o nível estiver desbloqueado, verifica o número de estrelas obtidas em cada nível (If pegando as keys do PlayerPrefs);
   - Faz a troca de páginas da seleção de nível habilitando a página atual e desabilitando as demais;
-  - Botão para cada nível (loadScene para o nível escolhido);
+  - Botão para cada nível (LoadScene para o nível escolhido);
 
 - Jogo
-  - Começa com uma contagem regressiva com (-= Time.deltaTime), ao chegar em 0, desabilita a contagem, libera a movimentação do jogador (deixando uma variável bool da classe Player verdadeira) e inicia o contador de tempo do nível com;
-  - Quando o jogador colide com um cacto, reduz a barra de vida e atualiza a hud, se a barra de vida zerar ou se o jogador cair em um abismo, perde um coração e o revive no último checkpoint (transform do player igual ao transform do checkpoint);
+  - Começa com uma contagem regressiva com (-= Time.deltaTime), ao chegar em 0, desabilita a contagem, libera a movimentação do jogador (Deixando uma variável bool da classe Player verdadeira) e inicia o contador de tempo do nível com;
+  - Quando o jogador colide com um cacto, reduz a barra de vida e atualiza a hud, se a barra de vida zerar ou se o jogador cair em um abismo, perde um coração e o revive no último checkpoint (Transform do player igual ao transform do checkpoint);
   - Contador de tempo (+= Time.deltaTime) e progresso do nível (distância entre o player );
-  - Botão de pause (Time.timeScale = 0) onde o jogador pode voltar ao menu inicial (loadScene para o menu inicial), reiniciar o nível (loadScene no mesmo nível) ou voltar ao jogo (fecha a hud e Time.timeScale = 1); 
+  - Botão de pause (Time.timeScale = 0) onde o jogador pode voltar ao menu inicial (LoadScene para o menu inicial), reiniciar o nível (LoadScene no mesmo nível) ou voltar ao jogo (Desabilita a hud e Time.timeScale = 1); 
 
 - Fim de jogo
-  - Se o jogador perder todos os corações, chama a tela de fim de jogo, onde o jogador pode voltar ao menu inicial (loadScene para o menu inicial), reiniciar o nível (loadScene no mesmo nível) ou chamar um ads para ganhar um coração extra e reviver no último checkpoint (transform do player igual ao transform do checkpoint);
+  - Se o jogador perder todos os corações, chama a tela de fim de jogo, onde o jogador pode voltar ao menu inicial (LoadScene para o menu inicial), reiniciar o nível (LoadScene no mesmo nível) ou chamar um ads para ganhar um coração extra e reviver no último checkpoint (Transform do player igual ao transform do checkpoint);
 
 - Nível Completo
   - Mostra o tempo levado para chegar ao final do nível e o número de corações restantes.
-  - Faz uma verificação dos dados a cima (if), recompensa o jogador com estrelas de acordo com seu tempo e corações restantes e salva alguns dados, (nível completo, número de níveis desbloquados++, e número de estrelas).
-  - O jogador pode escolher voltar ao menu inicial (loadScene para o menu inicial), reiniciar o nível (loadScene no mesmo nível), ou ir ao próximo nível (loadScene no próximo nível).
+  - Faz uma verificação dos dados a cima (If), recompensa o jogador com estrelas de acordo com seu tempo e corações restantes e salva alguns dadosno PlayerPrefs, (Nível completo, número de níveis desbloquados++, e número de estrelas).
+  - O jogador pode escolher voltar ao menu inicial (LoadScene para o menu inicial), reiniciar o nível (LoadScene no mesmo nível), ou ir ao próximo nível (LoadScene no próximo nível).
 
 # Manutenção do projeto planejada:
-- 
-- 
-- 
-- 
-- 
+- Novos níveis;
+- Novos obstáculos;
+- Uma forma de ganhar corações no nível;
+- Melhoria na movimentação do jogador e nova movimentação;
+- Melhorar o Analytics;
 
 # Tempo gasto com o projeto:
-- Do dia 22* até o dia 27* foram investidas em média 8 horas por dia no projeto.
-- *22 - Início do projeto.
-- *27 - Fim do projeto.
+- Do dia 22 até o dia 27 foram investidas em média 8 horas por dia no projeto.
+- 22 - Início do projeto.
+- 27 - Fim do projeto.
 
 # Maiores dificuldades:
-- 
+- Documentação.
