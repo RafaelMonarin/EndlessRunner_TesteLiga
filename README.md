@@ -16,7 +16,9 @@
 
 # Lógicas Empregadas:
 - Menu inicial - Para cada botão do menu, chama um método que desativa todos os menus e ativa só o referente ao botão;
+
 - Seleção de nível - Com PlayerPrefs, habilita ou desabilita o botão de cada nível se o nível estiver desbloqueado, verifica o número de estrelas obtidas em cada nível. Faz a troca de páginas da seleção de nível habilitando a página atual e desabilitando as demais;
+
 - Jogo - Começa com uam contagem regressiva, ao chegar em 0, desabilita a contagem, libera a movimentação do jogador e inicia o contador de tempo do nível;
   Quando o jogador colide com um cacto, reduz a barra de vida e atualiza a hud, se a barra de vida zerar ou se o jogador cair em um abismo , perde um coração e o revive no último checkpoint, 
 - 
