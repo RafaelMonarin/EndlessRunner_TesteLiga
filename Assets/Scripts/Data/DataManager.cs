@@ -21,12 +21,17 @@ public class DataManager : MonoBehaviour
     // Cria / zera o PlayerPrefs.
     public void RereateData()
     {
+        // PlayerPrefs int com o número de níveis desbloquados.
         PlayerPrefs.SetInt("LevelsUnlocked", 1);
+        // Loop que cria 2 Playerprefs para cada nível.
         for (int i = 0; i < 8; i++)
         {
+            // PlayerPrefs int com o número de estrelas.
             PlayerPrefs.SetInt("Level" + (i + 1) + "Stars", 0);
+            // Playerprefs string se o nível estiver completo.
             PlayerPrefs.SetString("Level" + (i + 1) + "Completed", "no");
         }
+        // Salva o PlayerPrefs.
         PlayerPrefs.Save();
     }
 }
