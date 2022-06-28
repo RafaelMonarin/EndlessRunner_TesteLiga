@@ -2,22 +2,23 @@
 <h1 align="center">Documentação</h1>
 
 # Principais Classes:
-- Menus: Responável pela hud do menu e suas transições;
-- LevelSelector: Responsável pela verificação dos níveis se desbloqueados ou não e número de estrelas;
-- Player: Junto com as classes PlayerMovementMobile.cs, são responsáveis pela movimentação do jogador e animações;
-- Health: Responsável pela vida e hud de vida do jogador;
-- LevelMananger: Responsável por toda a jogabilidade do nível, checkpoints e hud;
-- CheckPoint: Responsável pela animação da bandeira de checkpoint e por passar seu transform para a classe LevelManager;
-- Finish: Responsável pela animação da bandeira do final e por encerrar o nível chamando o método LevelFinished() da classe LevelManager;
-- DataManager: Responsável por salvar os níveis desbloqueados, completos e suas estrelas;
-- AdsInitializer: Responsável por iniciar o Ads;
-- RewardedAdsButton: Responsável por chamar o Ads de reward e se completo, chama um evento que revive o jogador com uma vida bônus no último checkpoint;
-- AnalyticsSender: Responsável por mandar um analytics sempre quando iniciar um nível e quando o nível for completo.
+- Menus - Hud do menu e suas transições;
+- LevelSelector - Verificação dos níveis se desbloqueados ou não e número de estrelas;
+- Player - Junto com as classes PlayerMovementMobile, são responsáveis pela movimentação do jogador e animações;
+- Health - Vida e hud de vida do jogador;
+- LevelMananger - Toda a jogabilidade do nível, checkpoints e hud;
+- CheckPoint - Animação da bandeira de checkpoint e por passar seu transform para a classe LevelManager;
+- Finish - Animação da bandeira do final e por encerrar o nível chamando o método LevelFinished() da classe LevelManager;
+- DataManager - Salvar os níveis desbloqueados, completos e suas estrelas;
+- AdsInitializer - Iniciar o Ads;
+- RewardedAdsButton - Chama o Ads de reward e se completo, chama um evento que revive o jogador com uma vida bônus no último checkpoint;
+- AnalyticsSender - Mandar um analytics sempre quando iniciar um nível e quando o nível for completo.
 
 # Lógicas Empregadas:
-- 
-- 
-- 
+- Menu inicial - Para cada botão do menu, chama um método que desativa todos os menus e ativa só o referente ao botão;
+- Seleção de nível - Com PlayerPrefs, habilita ou desabilita o botão de cada nível se o nível estiver desbloqueado, verifica o número de estrelas obtidas em cada nível. Faz a troca de páginas da seleção de nível habilitando a página atual e desabilitando as demais;
+- Jogo - Começa com uam contagem regressiva, ao chegar em 0, desabilita a contagem, libera a movimentação do jogador e inicia o contador de tempo do nível;
+  Quando o jogador colide com um cacto, reduz a barra de vida e atualiza a hud, se a barra de vida zerar ou se o jogador cair em um abismo , perde um coração e o revive no último checkpoint, 
 - 
 - 
 
