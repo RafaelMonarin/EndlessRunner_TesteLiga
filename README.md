@@ -57,8 +57,22 @@
   - Programação - 4 horas;
   - Animação - 1 hora;
 - Hud
-  - Menu Inicial - 1 hora;
-- Testes - 8 horas;
+  - Menu inicial - 1 hora;
+  - Seleção de nível - 2 horas;
+  - Hud do jogo - 3 horas; 
+- Jogo
+  - Todo esquema de vida (Tomar dano, morrer, reviver) - 4 horas;
+  - Programação + Animação da bandeira de checkpoint e final - 2 horas;
+  - Fim de jogo - 1 hora;
+  - Nível completo - 1 hora;
+  - Data (PlayerPrefs) - 2 horas;
+- Unity Analytics e Ads
+  - Analytics - 1 hora;
+  - Ads - 1 hora;
+- Testes - 16 horas;
+
+- Observação
+  - Tempo aproximado.
 
 # Maiores dificuldades:
 - Documentação.
