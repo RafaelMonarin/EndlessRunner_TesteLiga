@@ -17,10 +17,11 @@
 # Lógicas Empregadas:
 - Menu inicial - Para cada botão do menu, chama um método que desativa todos os menus e ativa só o referente ao botão;
 
-- Seleção de nível - Com PlayerPrefs, habilita ou desabilita o botão de cada nível se o nível estiver desbloqueado, verifica o número de estrelas obtidas em cada nível. Faz a troca de páginas da seleção de nível habilitando a página atual e desabilitando as demais;
+- Seleção de nível
+  - Com PlayerPrefs, habilita ou desabilita o botão de cada nível se o nível estiver desbloqueado, verifica o número de estrelas obtidas em cada nível; Faz a troca de páginas da seleção de nível habilitando a página atual e desabilitando as demais;
 
-- Jogo - Começa com uam contagem regressiva, ao chegar em 0, desabilita a contagem, libera a movimentação do jogador e inicia o contador de tempo do nível;
-Quando o jogador colide com um cacto, reduz a barra de vida e atualiza a hud, se a barra de vida zerar ou se o jogador cair em um abismo , perde um coração e o revive no último checkpoint, 
+- Jogo - Começa com uma contagem regressiva, ao chegar em 0, desabilita a contagem, libera a movimentação do jogador e inicia o contador de tempo do nível;
+Quando o jogador colide com um cacto, reduz a barra de vida e atualiza a hud, se a barra de vida zerar ou se o jogador cair em um abismo, perde um coração e o revive no último checkpoint; Contador de tempo e progresso do nível; Botão de pause onde o jogador pode voltar ao menu inicial, reiniciar o nível ou voltar ao jogo; Se o jogador perder todos os corações, chama a tela de fim de jogo, onde o jogador pode voltar ao menu inicial, reiniciar o nível ou chamar um ads para ganhar um coração extra e reviver no último checkpoint; 
 - 
 - 
 
