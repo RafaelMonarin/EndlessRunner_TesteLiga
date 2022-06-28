@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class DataManager : MonoBehaviour
 {
+    // Quando iniciar, chama StartData().
     private void Start()
     {
         StartData();
     }
-
+    
+    // Verifica se já possui o PlayerPrefs criado, se não, chama RecreateData().
     void StartData()
     {
         if (!PlayerPrefs.HasKey("LevelsUnlocked"))
@@ -16,7 +18,7 @@ public class DataManager : MonoBehaviour
             RereateData();
         }
     }
-
+    // Cria / zera o PlayerPrefs.
     public void RereateData()
     {
         PlayerPrefs.SetInt("LevelsUnlocked", 1);
