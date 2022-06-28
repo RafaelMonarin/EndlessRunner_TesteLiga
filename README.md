@@ -38,16 +38,27 @@
   - O jogador pode escolher voltar ao menu inicial (LoadScene para o menu inicial), reiniciar o nível (LoadScene no mesmo nível), ou ir ao próximo nível (LoadScene no próximo nível).
 
 # Manutenção do projeto planejada:
-- Novos níveis;
-- Novos obstáculos;
-- Uma forma de ganhar corações no nível;
-- Melhoria na movimentação do jogador e nova movimentação;
-- Melhorar o Analytics;
+- Novos Desafios
+  - Novos níveis;
+  - Novos obstáculos;
+- Melhorias de Qualidade de Vida
+  - Melhoria na movimentação do jogador;
+  - Melhoria nas animações do jogador;
+  - Melhoria na hud;
+  - Animações na hud;
+  - Melhorar o Analytics;
+  - Correção de bugs.
 
 # Tempo gasto com o projeto:
-- Do dia 22 até o dia 27 foram investidas em média 8 horas por dia no projeto.
-- 22 - Início do projeto.
-- 27 - Fim do projeto.
+- 22 - Início do projeto;
+- 27 - Fim do projeto;
+
+- Jogador
+  - Programação - 4 horas;
+  - Animação - 1 hora;
+- Hud
+  - Menu Inicial - 1 hora;
+- Testes - 8 horas;
 
 # Maiores dificuldades:
 - Documentação.
